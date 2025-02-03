@@ -2,6 +2,12 @@
 
 ### Prerequisites
 
+- Clone the repo
+```shell
+git clone https://github.com/cyrilsebastian1811/receipt-processor.git
+cd receipt-processor
+git checkout master
+```
 - Docker
 
 ### Spin up container
