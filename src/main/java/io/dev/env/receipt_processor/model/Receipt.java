@@ -1,9 +1,12 @@
 package io.dev.env.receipt_processor.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.List;
@@ -19,32 +22,31 @@ public class Receipt {
     @Column(name = "id", updatable = false, nullable = false, length = 36)
     private UUID id;
 
+    @Schema(description = "Name of the retailer", example = "Target")
+    @NotNull(message = "Retailer is required")
+    @Pattern(regexp = "^[\\w\\s\\-&]+$", message = "Retailer name must contain only alphanumeric characters, spaces, hyphens, or ampersands")
     private String retailer;
-    private String purchaseDate;
-    private String purchaseTime;
-    private String total;
 
+    @Schema(description = "Date of purchase in YYYY-MM-DD format", example = "2022-01-01")
+    @NotNull(message = "Purchase date is required")
+    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Purchase date must be in YYYY-MM-DD format")
+    private String purchaseDate;
+
+    @Schema(description = "Time of purchase in HH:MM format", example = "13:01")
+    @NotNull(message = "Purchase time is required")
+    @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d)$", message = "Purchase time must be in HH:MM format (24-hour)")
+    private String purchaseTime;
+
+    @Schema(description = "List of items purchased")
+    @NotNull(message = "Items are required")
+    @Size(min = 1, message = "At least one item is required")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "receipt_id")
+    @Valid
     private List<Item> items;
 
-
-//    // Getters and Setters
-//    public String getId() { return id; }
-//    public void setId(String id) { this.id = id; }
-//
-//    public String getRetailer() { return retailer; }
-//    public void setRetailer(String retailer) { this.retailer = retailer; }
-//
-//    public String getPurchaseDate() { return purchaseDate; }
-//    public void setPurchaseDate(String purchaseDate) { this.purchaseDate = purchaseDate; }
-//
-//    public String getPurchaseTime() { return purchaseTime; }
-//    public void setPurchaseTime(String purchaseTime) { this.purchaseTime = purchaseTime; }
-//
-//    public List<Item> getItems() { return items; }
-//    public void setItems(List<Item> items) { this.items = items; }
-//
-//    public String getTotal() { return total; }
-//    public void setTotal(String total) { this.total = total; }
+    @Schema(description = "Total amount paid", example = "35.35")
+    @NotNull(message = "Total is required")
+    @Pattern(regexp = "^\\d+\\.\\d{2}$", message = "Total must be in the format 0.00")
+    private String total;
 }

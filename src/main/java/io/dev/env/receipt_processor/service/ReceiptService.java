@@ -1,36 +1,38 @@
 package io.dev.env.receipt_processor.service;
 
+import io.dev.env.receipt_processor.exception.ReceiptNotFoundException;
 import io.dev.env.receipt_processor.model.Item;
 import io.dev.env.receipt_processor.model.PointsResponse;
 import io.dev.env.receipt_processor.model.Receipt;
 import io.dev.env.receipt_processor.model.ReceiptResponse;
 import io.dev.env.receipt_processor.repository.ReceiptRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class ReceiptService {
+    private static final Logger logger = LoggerFactory.getLogger(ReceiptService.class);
+
     @Autowired
     private ReceiptRepository receiptRepository;
 
     public ReceiptResponse processReceipt(Receipt receipt) {
-//        // Generate a UUID string for the receipt ID
-//        String id = UUID.randomUUID().toString();
-//        // Set the UUID as the receipt ID
-//        receipt.setId(id);
         receiptRepository.save(receipt);
-        return new ReceiptResponse(receipt.getId());
+        UUID id = receipt.getId();
+        logger.info("Processed receipt with ID: {}", id);
+        return new ReceiptResponse(id);
     }
 
     public PointsResponse getPoints(UUID id) {
         Receipt receipt = receiptRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Receipt not found with ID: " + id));
+                .orElseThrow(() -> new ReceiptNotFoundException("No receipt found for that ID: " + id));
         int points = calculatePoints(receipt);
+        logger.info("Calculated points for receipt ID {}: {}", id, points);
         return new PointsResponse(points);
     }
 

@@ -9,7 +9,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -27,8 +29,8 @@ public class ReceiptController {
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
     @PostMapping("/process")
-    public ReceiptResponse processReceipt(@RequestBody Receipt receipt) {
-        return receiptService.processReceipt(receipt);
+    public ResponseEntity<ReceiptResponse> processReceipt(@Valid @RequestBody Receipt receipt) {
+        return ResponseEntity.ok(receiptService.processReceipt(receipt));
     }
 
     @Operation(summary = "Get points for a receipt", description = "Returns the points awarded for the receipt with the given ID.")
@@ -38,7 +40,7 @@ public class ReceiptController {
             @ApiResponse(responseCode = "404", description = "Receipt not found")
     })
     @GetMapping("/{id}/points")
-    public PointsResponse getPoints(@PathVariable UUID id) {
-        return receiptService.getPoints(id);
+    public ResponseEntity<PointsResponse> getPoints(@PathVariable UUID id) {
+        return ResponseEntity.ok(receiptService.getPoints(id));
     }
 }
