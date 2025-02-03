@@ -7,6 +7,10 @@ import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
+/**
+ * The Item class represents an item on a receipt.
+ * It contains details such as the short description and price of the item.
+ */
 @Entity
 @Getter
 @Setter

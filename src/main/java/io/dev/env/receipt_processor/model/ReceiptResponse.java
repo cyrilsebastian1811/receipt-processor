@@ -6,6 +6,9 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+/**
+ * The ReceiptResponse class represents the response containing the unique ID assigned to a receipt.
+ */
 @Getter
 @AllArgsConstructor
 public class ReceiptResponse {

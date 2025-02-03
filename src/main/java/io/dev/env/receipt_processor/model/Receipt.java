@@ -12,6 +12,10 @@ import org.hibernate.annotations.UuidGenerator;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The Receipt class represents a receipt submitted for processing.
+ * It contains details such as the retailer, purchase date, purchase time, items, and total amount.
+ */
 @Entity
 @Getter
 @Setter

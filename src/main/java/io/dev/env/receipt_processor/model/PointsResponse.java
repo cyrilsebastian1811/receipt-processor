@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * The PointsResponse class represents the response containing the points awarded for a receipt.
+ */
 @Getter
 @AllArgsConstructor
 public class PointsResponse {
