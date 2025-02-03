@@ -1,0 +1,26 @@
+# Ignore Gradle build files, caches, and dependencies
+.gradle/
+build/
+!build/libs/*.jar
+
+# Ignore temporary and log files
+*.log
+*.tmp
+hs_err_pid*
+
+# Ignore IDE/editor metadata files
+.idea/
+.vscode/
+*.iml
+
+# Ignore operating system files
+.DS_Store
+Thumbs.db
+
+# Ignore environment variables & sensitive files
+.env
+*.env
+secrets/
+
+# Ignore Docker build-related files
+docker-compose.yml

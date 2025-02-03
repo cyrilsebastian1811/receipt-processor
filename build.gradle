@@ -6,7 +6,7 @@ plugins {
 
 group = 'io.dev.env'
 archivesBaseName = 'receipt-processor'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.2'
 
 java {
 	toolchain {
@@ -19,12 +19,29 @@ repositories {
 }
 
 dependencies {
+//	Spring Boot Starter
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+//	Spring Boot Starter Data JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+//	Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+//	H2 Database
+	runtimeOnly 'com.h2database:h2'
+
+//	Spring Boot Starter Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+//	Swagger (SpringDoc OpenAPI)
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
+
+//	Lombok
+	compileOnly 'org.projectlombok:lombok:1.18.36'
+	annotationProcessor 'org.projectlombok:lombok:1.18.36'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+	maxParallelForks = Runtime.runtime.availableProcessors()
 }
